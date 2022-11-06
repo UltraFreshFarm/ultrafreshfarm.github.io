@@ -14,7 +14,8 @@ export function LandingScreen() {
         }} onTap={() => {
             navigate('home');
         }}>
-            <img src={'/logo/ultra-fresh.svg'} width={400} height={300} />
+            <img src={'/logo/ultra-fresh.svg'} width={400} height={300} alt={'Ultra fresh logo'} />
+            <motion.div style={{color:'#04B250'}} animate={{scale:[1,1.2,1]}} transition={{repeat:Infinity}}>Tap here to continue</motion.div>
         </motion.div>
     </div>
 
