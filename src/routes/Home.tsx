@@ -29,6 +29,7 @@ const colorSet = ['#04B250',
 const colorSetLowOpacity = colorSet.map(cs => adjustColor(cs,1,0.05));
 
 function PromotionBanner() {
+    const navigate = useNavigate();
     return <div style={{position: 'relative',backgroundColor:'rgba(0,0,0,0.03)',borderTop:'1px solid rgba(0,0,0,0.1)',borderBottom:'1px solid rgba(0,0,0,0.1)'}}>
         <div style={{
             position: 'absolute',
@@ -41,7 +42,7 @@ function PromotionBanner() {
             background: 'linear-gradient(to left, #8360c3, #2ebf91)'
         }}/>
         <div style={{display: 'flex', flexShrink: 0, marginBottom: 10, marginTop: 10, position: 'relative'}}>
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '33.33%'}}>
+            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '33.33%'}} whileTap={{scale:0.9}} onTap={() => navigate('user-account')}>
                 <div style={{
                     width: 90,
                     height: 90,
@@ -50,7 +51,7 @@ function PromotionBanner() {
                     boxShadow: '0 5px 5px 0px rgba(0,0,0,0.3),0 5px 10px 0px rgba(0,0,0,0.1) inset',
                     position:'relative',
                     overflow:'hidden'
-                }}>
+                }} >
                     <motion.div style={{position: 'absolute',bottom:25,left:35,display:'flex',alignItems:'center',justifyContent:'center',width:20,height:20}} animate={{rotate:[360,0]}}
                                 transition={{repeat: Infinity,bounce:0,ease:'linear',bounceStiffness:0,repeatType:'loop',bounceDamping:0,duration:3}}>
                         <TbRefresh style={{fontSize: 30, color: 'white'}}/>
@@ -67,11 +68,10 @@ function PromotionBanner() {
                     bottom:0
                 }}>SUBSCRIBE
                 </div>
-
-                <Image src={'/logo/member/regular-delivery.svg'} width={65} height={80}
-                       style={{marginTop: -100}}/>
-            </div>
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '33.33%'}}>
+                <Image src={'/logo/member/auto-reorder.svg'} width={65} height={80}
+                       style={{marginTop: -105}}/>
+            </motion.div>
+            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '33.33%'}} whileTap={{scale:0.9}} onTap={() => navigate('user-account')}>
                 <div style={{
                     width: 90,
                     height: 90,
@@ -80,7 +80,7 @@ function PromotionBanner() {
                     boxShadow: '0 5px 5px 0px rgba(0,0,0,0.3),0 5px 10px 0px rgba(0,0,0,0.1) inset',
                     position:'relative',
                     overflow:'hidden'
-                }}>
+                }} >
                     <motion.div style={{position: 'absolute',bottom:15,left:33}} animate={{scale:[0.8,1,0.8]}}
                                 transition={{repeat: Infinity,bounce:0,ease:'linear',bounceStiffness:0,repeatType:'loop',bounceDamping:0,duration:1}}>
                         <IoRibbonOutline style={{fontSize: 28, color: 'white'}}/>
@@ -100,10 +100,10 @@ function PromotionBanner() {
 
                 <Image src={'/logo/member/loyalty-program.svg'} width={65} height={80}
                        style={{marginTop: -100}}/>
-            </div>
+            </motion.div>
 
 
-            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '33.33%'}}>
+            <motion.div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', width: '33.33%'}} whileTap={{scale:0.9}} onTap={() => navigate('user-account')}>
                 <div style={{
                     width: 90,
                     height: 90,
@@ -112,7 +112,7 @@ function PromotionBanner() {
                     boxShadow: '0 5px 5px 0px rgba(0,0,0,0.3),0 5px 10px 0px rgba(0,0,0,0.1) inset',
                     position:'relative',
                     overflow:'hidden'
-                }}>
+                }} >
                     <motion.div style={{position: 'absolute',bottom:15,left:33}} animate={{rotate:[10,0,10],scale:[1,0.9,1]}}
                                 transition={{repeat: Infinity,bounce:0,ease:'linear',bounceStiffness:0,repeatType:'loop',bounceDamping:0,duration:0.2}}>
                         <IoPricetagsOutline style={{fontSize: 28, color: 'white'}}/>
@@ -132,7 +132,7 @@ function PromotionBanner() {
 
                 <Image src={'/logo/member/promotion-products.svg'} width={65} height={80}
                        style={{marginTop: -100}}/>
-            </div>
+            </motion.div>
 
 
         </div>
