@@ -12,11 +12,10 @@ export function HeaderNavigation() {
         alignItems:'center'
     }}>
         <div style={{display:'flex',flexDirection:'column',marginTop:5,marginBottom:5}}>
-            <div style={{display:'flex',marginLeft:-12}}>
-                <img src={'/logo/ultra-fresh-by.svg'} width={200}/>
-                <img src={'/logo/marmum-logo.png'} height={30}/>
+            <div style={{position:'relative',marginLeft:10}}>
+                <img src={'/logo/ultra-fresh-2.svg'} width={200}/>
+                <img src={'/logo/marmum-logo.png'} height={23} style={{position:'absolute',right:10}}/>
             </div>
-            <img src={'/logo/ultra-fresh-the-freshest-dairy.svg'} width={260}/>
         </div>
     </div>
 }
