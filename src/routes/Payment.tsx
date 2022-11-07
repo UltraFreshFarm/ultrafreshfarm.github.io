@@ -5,7 +5,7 @@ import {RiAppleLine, RiGoogleLine, RiMastercardLine, RiVisaLine} from "react-ico
 import {blue, ButtonTheme, white} from "./Theme";
 import {Input} from "../components/page-components/Input";
 import {Button} from "../components/page-components/Button";
-import {IoCardOutline} from "react-icons/io5";
+import {IoCardOutline, IoClose} from "react-icons/io5";
 import {useSubTotalCart} from "./Cart";
 import {useCallback, useEffect} from "react";
 import {useAppContext} from "../components/useAppContext";
@@ -16,13 +16,13 @@ import {isNotEmptyText} from "./Shipping";
 import {useFocusListener} from "../components/RouterPageContainer";
 import {nanoid} from "nanoid";
 import {supabase} from "../components/supabase";
-import {DbOrder} from "../components/model/DbOrder";
+import {DbOrder, statusDescription} from "../components/model/DbOrder";
 import {DbOrderLineItems} from "../components/model/DbOrderLineItems";
 
 
 export default function Payment(props: RouteProps) {
     const subTotal = useSubTotalCart();
-    const {store, user} = useAppContext();
+    const {store, user,showModal} = useAppContext();
     const cardInfo = useStoreValue(store, s => s.cardInfo);
     const localStore = useCreateStore({
         ...cardInfo,
@@ -32,7 +32,8 @@ export default function Payment(props: RouteProps) {
             validUntil: '',
             cvv: '',
             cardHolderName: '',
-        }
+        },
+        isFetchingRequest: false
     });
     const isFocused = useFocusListener(props.path);
     useEffect(() => {
@@ -66,6 +67,11 @@ export default function Payment(props: RouteProps) {
         if (!validate()) {
             return;
         }
+        if (user === null) {
+            navigate('sign-in');
+            return;
+        }
+        localStore.setState(produce(s => {s.isFetchingRequest = true}));
 
         store.setState(produce(state => {
             state.cardInfo.cardHolderName = localStore.stateRef.current.cardHolderName;
@@ -95,7 +101,7 @@ export default function Payment(props: RouteProps) {
             shipping_zipcode: shippingAddress.zipCode,
             sub_total: subTotalAmount
         };
-        const {data: persistedData} = await supabase.from('orders').insert(dbOrder).select().single();
+        let {data: persistedData} = await supabase.from('orders').insert(dbOrder).select().single() as {data:DbOrder};
         const shoppingCart = store.stateRef.current.shoppingCart;
         let dbOrderLineItems = shoppingCart.map(sc => {
             const item: DbOrderLineItems = {
@@ -130,7 +136,22 @@ export default function Payment(props: RouteProps) {
                 state: ''
             }
         }));
+        await showModal(closePanel => {
+            return <div style={{background:'white',padding:20,margin:20,borderRadius:20,border:'1px solid rgba(0,0,0,0.1)',display:'flex',flexDirection:'column'}}>
+                <div style={{marginBottom:10,fontSize:26}}>Hi {user?.firstName} {user?.lastName}, The system has successfully registered your order.</div>
+                <div style={{fontSize:14}}>
+                    {statusDescription[persistedData.order_status](persistedData)}
+                </div>
+                <div style={{marginTop:10,display:'flex',flexDirection:'column'}}>
+                    <Button onTap={() => closePanel(true)} title={'OK'} icon={IoClose} theme={ButtonTheme.promoted} />
+                </div>
+            </div>
+        })
+        localStore.setState(produce(s => {s.isFetchingRequest = false}));
+        // we need to close busy icon here
         navigate('history');
+
+
     }, [store, navigate, validate, subTotal, localStore.stateRef, user?.phone]);
 
 
@@ -254,9 +275,12 @@ export default function Payment(props: RouteProps) {
                 </StoreValue>
             </div>
             <div style={{margin: '20px 20px', alignItems: 'center', justifyContent: 'center', display: 'flex'}}>
-                <Button title={`Pay AED ${subTotal}`} onTap={async () => {
-                    await performPayment();
-                }} icon={IoCardOutline} style={{fontSize: 20, padding: '15px 50px'}} theme={ButtonTheme.promoted}/>
+                <StoreValue store={localStore} selector={s => s.isFetchingRequest} property={'isBusy'}>
+                    <Button title={`Pay AED ${subTotal}`} onTap={async () => {
+                        await performPayment();
+                    }} icon={IoCardOutline} isBusy={true} style={{fontSize: 20, padding: '15px 50px'}}
+                            theme={ButtonTheme.promoted}/>
+                </StoreValue>
             </div>
         </div>
     </div>

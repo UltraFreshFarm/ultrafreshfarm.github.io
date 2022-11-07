@@ -121,10 +121,12 @@ export default function Cart(props: RouteProps) {
                 <div style={{fontSize: 12}}>Subtotal</div>
                 <div style={{fontWeight: 'bold', fontSize: 18}}>AED {subTotal}</div>
             </div>
+            {!isEmpty &&
             <div>
-                <Button title={'Proceed'} icon={MdOutlinePayments} theme={ButtonTheme.promoted}
+                <Button title={'Check Out'} icon={MdOutlinePayments} theme={ButtonTheme.promoted}
                         onTap={() => navigate('shipping')}/>
             </div>
+            }
         </div>
     </div>
 }
