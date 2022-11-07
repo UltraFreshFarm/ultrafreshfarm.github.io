@@ -152,7 +152,7 @@ export default function Payment(props: RouteProps) {
         navigate('history');
 
 
-    }, [store, navigate, validate, subTotal, localStore.stateRef, user?.phone]);
+    }, [store, navigate, validate, subTotal, user,localStore,showModal]);
 
 
     return <div

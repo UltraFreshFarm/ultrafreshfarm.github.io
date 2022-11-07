@@ -13,8 +13,8 @@ export function HeaderNavigation() {
     }}>
         <div style={{display:'flex',flexDirection:'column',marginTop:5,marginBottom:5}}>
             <div style={{position:'relative',marginLeft:10}}>
-                <img src={'/logo/ultra-fresh-2.svg'} width={200}/>
-                <img src={'/logo/marmum-logo.png'} height={23} style={{position:'absolute',right:10}}/>
+                <img src={'/logo/ultra-fresh-2.svg'} width={200} alt={'Ultra Fresh logo'}/>
+                <img src={'/logo/marmum-logo.png'} height={23} style={{position:'absolute',right:10}} alt={'Marmum Logo'}/>
             </div>
         </div>
     </div>

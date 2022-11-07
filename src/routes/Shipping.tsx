@@ -17,13 +17,7 @@ export function Shipping(props: RouteProps) {
     const continueToPaymentIfUserJustReLoggedIn = useRef(false);
     const navigate = useNavigate();
     const isFocused = useFocusListener(props.path);
-    useEffect(() => {
-        const userIsLoggedIn = !userNotYetLoggedIn;
-        if(isFocused && userIsLoggedIn && continueToPaymentIfUserJustReLoggedIn.current){
-            continueToPaymentIfUserJustReLoggedIn.current = false;
-            makePayment()
-        }
-    },[userNotYetLoggedIn,isFocused]);
+
     const shippingAddress = useStoreValue(appStore, s => s.shippingAddress);
 
     const store = useCreateStore({
@@ -87,7 +81,13 @@ export function Shipping(props: RouteProps) {
         }
     },[appStore, navigate, store.stateRef, userNotYetLoggedIn, validate]);
 
-
+    useEffect(() => {
+        const userIsLoggedIn = !userNotYetLoggedIn;
+        if(isFocused && userIsLoggedIn && continueToPaymentIfUserJustReLoggedIn.current){
+            continueToPaymentIfUserJustReLoggedIn.current = false;
+            makePayment()
+        }
+    },[userNotYetLoggedIn,isFocused,makePayment]);
 
     const update = useCallback((key: string, value: any) => store.dispatch({
         type: 'update',
